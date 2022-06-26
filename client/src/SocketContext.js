@@ -4,7 +4,7 @@ import Peer from "simple-peer";
 import { useContext } from "react";
 
 const SocketContext = createContext();
-const socket = io("http://localhost:4000");
+const socket = io("https://vizo-web.herokuapp.com/");
 
 const ContextProvider = ({ children }) => {
   const [callAccepted, setCallAccepted] = useState(false);
@@ -23,8 +23,9 @@ const ContextProvider = ({ children }) => {
       .getUserMedia({ video: true, audio: true })
       .then((currentStream) => {
         setStream(currentStream);
-
-        myVideo.current.srcObject = currentStream;
+        setTimeout(() => {
+          myVideo.current.srcObject = currentStream;
+        }, 10000);
       });
 
     socket.on("me", (id) => setMe(id));
@@ -32,7 +33,7 @@ const ContextProvider = ({ children }) => {
     socket.on("callUser", ({ from, name: callerName, signal }) => {
       setCall({ isReceivingCall: true, from, name: callerName, signal });
     });
-  }, []);
+  }, [myVideo]);
 
   const answerCall = () => {
     setCallAccepted(true);

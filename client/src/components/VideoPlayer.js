@@ -48,6 +48,7 @@ const VideoPlayer = () => {
 const useStyles = makeStyles((theme) => ({
   video: {
     width: "550px",
+    borderRadius: "10px",
     transform: "rotateY(180deg)",
     [theme.breakpoints.down("xs")]: {
       width: "300px",
